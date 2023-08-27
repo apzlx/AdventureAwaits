@@ -1,5 +1,6 @@
 const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/apiFeature');
+const catchAsync = require('../utils/catchAsync')
 
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
@@ -7,31 +8,24 @@ exports.aliasTopTours = (req, res, next) => {
   req.query.fields = 'name, price, ratingsAverage, summary, difficulty';
   next();
 };
-exports.getAllTours = async (req, res) => {
-  try {
-    // EXECUTE QUERY
+exports.getAllTours = catchAsync async(req, res, next) => {
+  
+  const features = new APIFeatures(Tour.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
 
-    const features = new APIFeatures(Tour.find(), req.query)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
-    console.log(features, 'HERERERER');
-    const tours = await features.query;
+  const tours = await features.query;
 
-    // SEND RESPONSE
-    res.status(200).json({
-      status: 'success',
-      results: tours.length,
-      data: { tours },
+  // SEND RESPONSE
+  res.status(200).json({
+    status: 'success',
+    results: tours.length,
+    data: { tours },
     });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+  
+}
 
 exports.getTour = async (req, res) => {
   try {
