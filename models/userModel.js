@@ -45,23 +45,37 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
 });
 
 //implement encryption for passwords
 //only run this function if password was actually modified
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
+
   //bcrypt
   //hash the passwrod with cost of 12, higher number more CPU intensive
   this.password = await bcrypt.hash(this.password, 12);
+
   // Delete passwordConfirm field
   this.passwordConfirm = undefined;
   next();
 });
 
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
 userSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find({ active: { $ne: false } });
+  this.find({ active: { $ne: false } }); //ne is not equal to
   next();
 });
 
