@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');

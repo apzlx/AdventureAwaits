@@ -3,13 +3,11 @@ const reviewController = require('../controllers/reviewController');
 
 const authController = require('../controllers/authController');
 
-const router = express.Router();
-
-router.route('/').get(authController.protect, reviewController.getAllReviews);
+const router = express.Router({ mergeParams: true });
 
 router
-  .route('/:tourId/reviews')
-  .get(authController.protect, reviewController.getTourReviews)
+  .route('/')
+  .get(authController.protect, reviewController.getAllReviews)
   .post(
     authController.protect,
     authController.restrictTo('user'),

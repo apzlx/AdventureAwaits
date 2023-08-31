@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const crypto = require('crypto');
 const mongoose = require('mongoose');
-const slugify = require('slugify');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
@@ -34,7 +33,7 @@ const userSchema = new mongoose.Schema({
   passwordConfirm: {
     type: String,
     required: [true, 'User must confirm password'],
-    validator: {
+    validate: {
       // this only works on CREATE and SAVE!!!
       validator: function (el) {
         return el === this.password;
