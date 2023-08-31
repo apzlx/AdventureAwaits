@@ -1,6 +1,6 @@
 // review/rating/createdAt/ref to tour/ref to user
 const mongoose = require('mongoose');
-const validator = require('validator');
+//const validator = require('validator');
 
 const reviewSchema = new mongoose.Schema(
   {
