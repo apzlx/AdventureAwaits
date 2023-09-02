@@ -15,7 +15,7 @@ exports.getTour = factory.getOne(Tour, {
 });
 
 exports.createTour = factory.createOne(Tour);
-exports.updateTour = factory.udpateOne(Tour);
+exports.updateTour = factory.updateOne(Tour);
 exports.deleteTour = factory.deleteOne(Tour);
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
