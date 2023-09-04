@@ -83,7 +83,7 @@ const tourSchema = new mongoose.Schema(
     startLocation: {
       //GeoJSON
     },
-    location: {},
+    locations: {},
     guides: [
       {
         type: mongoose.Schema.ObjectId,
