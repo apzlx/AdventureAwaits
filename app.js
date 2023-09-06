@@ -25,7 +25,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //  1) global middlewares
 // set security HTTP headers
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'", 'ws://127.0.0.1'],
+    },
+  }),
+);
 
 // development logging
 if (process.env.NODE_ENV === 'development') {
@@ -42,7 +49,7 @@ app.use('/api', limiter);
 
 // body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
-app.user(cookieParser());
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
