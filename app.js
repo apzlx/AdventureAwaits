@@ -38,6 +38,11 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+app.use(
+  '/public/js',
+  express.static(`${__dirname}/public/js`, { extensions: ['js'] }),
+);
+
 // Limit requests from same API
 const limiter = rateLimit({
   max: 100,
