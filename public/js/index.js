@@ -2,15 +2,17 @@
 import '@babel/polyfill';
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
+import { updateData } from './updateSettings';
 
 //get data from interface and delegate action to different modules
 
 // DOM ELEMENTS
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
-console.log(loginForm, 'loginform');
+
 const logOutBtn = document.querySelector('.nav__el--logout');
-// const userDataForm = document.querySelector('.form-user-data');
+const userDataForm = document.querySelector('.form-user-data');
+console.log(userDataForm, 'userDataform');
 // const userPasswordForm = document.querySelector('.form-user-password');
 // const bookBtn = document.getElementById('book-tour');
 
@@ -29,3 +31,12 @@ if (loginForm)
   });
 
 if (logOutBtn) logOutBtn.addEventListener('click', logout);
+
+if (userDataForm)
+  userDataForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    updateData(name, email);
+  });
